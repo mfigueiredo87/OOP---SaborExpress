@@ -1,18 +1,18 @@
 # Propriedade: Manuel Figueiredo
 # importar 
 from modelos.restaurante import Restaurante
+from modelos.cardapio.bebida import Bebida
+from modelos.cardapio.prato import Prato
 
 # criar restaurantes
 restaurante_praca = Restaurante('praca', 'Gourmet')
-restaurante_huila = Restaurante('arte doce', 'Cafe')
-restaurante_sul = Restaurante('huila sul', 'comida do sul')
+bebida_suco = Bebida('Suco de Menlancia', 5.0, 'grande')
+prato_petisco = Prato('Omolete completo', 9.5, 'Omolete com direito a bebida')
 
-restaurante_praca.receber_avaliacao('Manuel',8)
-restaurante_praca.receber_avaliacao('Figueiredo', 8)
 
-restaurante_praca.alternar_estado()
 def main():
-    Restaurante.listar_restaurantes()
+    print(bebida_suco)
+    print(prato_petisco)
 
 if __name__ == '__main__':
     main()
