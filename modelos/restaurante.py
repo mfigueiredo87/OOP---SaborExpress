@@ -1,5 +1,6 @@
 # Propriedade: Manuel Figueiredo
 from modelos.avaliacao import Avaliacao
+from modelos.cardapio.item_cardapio import ItemCardapio
 
 class Restaurante:
     restaurantes = []
@@ -11,8 +12,9 @@ class Restaurante:
         self._nome = nome.title() 
         self._categoria = categoria.upper()
         self._ativo = False
-        # importando avaliacao
+        # importando objectos
         self._avaliacao = []
+        self._cardapio = []
         # colocando ja os atributos na lista
         Restaurante.restaurantes.append(self)
         
@@ -52,3 +54,25 @@ class Restaurante:
         # achar a media das notas
         media = round(soma_das_notas / quantidade_de_notas, 1)
         return media
+    
+    # dicionar no cardapio
+    def adicionar_cardapio(self, item):
+        # adicionar o item se for uma instancia do item cardapio
+        if isinstance(item, ItemCardapio):
+            self._cardapio.append(item)
+        
+    # metodo para exibir, colocamos property por ser apenas de leitura
+    @property
+    def exibir_cardapio(self):
+        print(f'Cardapio do Restaurante {self._nome}\n')
+        # enumerar os itens da lista 
+        for i,item in enumerate(self._cardapio, start=1):
+            # verificar o atributo se descricao e tamanho
+            # o primeiro para o prato
+            if hasattr(item, 'descricao'):
+                mensagem_prato = f'{i}. Nome: {item._nome.ljust(25)} | Preço:{item._preco} | Descrição: {item.descricao}'
+                print(mensagem_prato)
+            else: 
+                mensagem_bebida = f'{i}. Nome: {item._nome.ljust(25)} | Preço:{item._preco} | Tamanho: {item.tamanho}'
+                print(mensagem_bebida)
+        
