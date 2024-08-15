@@ -1,3 +1,6 @@
+# Propriedade: Manuel Figueiredo
+from modelos.avaliacao import Avaliacao
+
 class Restaurante:
     restaurantes = []
     # definindo construtor e passar os parametros
@@ -8,6 +11,8 @@ class Restaurante:
         self._nome = nome.title() 
         self._categoria = categoria.upper()
         self._ativo = False
+        # importando avaliacao
+        self._avaliacao = []
         # colocando ja os atributos na lista
         Restaurante.restaurantes.append(self)
         
@@ -17,9 +22,9 @@ class Restaurante:
     # usar o classmethod sempre que o metodo referenciado a class e nao com o objecto ou instancia
     @classmethod
     def listar_restaurantes(cls):
-        print(f"{'Nome do Restaurante'.ljust(25)} | {'Categoria'.ljust(25)} | {'Status'}")
+        print(f"{'Nome do Restaurante'.ljust(25)} | {'Categoria'.ljust(25)} | {'Avaliação'.ljust(25)}| {'Status'}")
         for restaurante in cls.restaurantes:
-            print(f'{restaurante._nome.ljust(25)} | {restaurante._categoria.ljust(25)} | {restaurante.ativo}')
+            print(f'{restaurante._nome.ljust(25)} | {restaurante._categoria.ljust(25)} | {str(restaurante.media_avaliacao).ljust(25)} | {restaurante.ativo}')
     # modificar como o atributo vai ser lido
     @property
     def ativo(self):
@@ -28,16 +33,22 @@ class Restaurante:
     # metodo para activar o status. Definir um metodo de objeto
     def alternar_estado(self):
         self._ativo = not self._ativo
-    
-restaurante_praca = Restaurante('arte doce', 'Cafe')
-restaurante_praca.alternar_estado()
-restaurante_pizza = Restaurante('huila', 'restaurante')
 
-# exibir o metodo listar
-Restaurante.listar_restaurantes()
-
-# print(restaurante_pizza)
-# print(restaurante_praca)
-# print(vars(restaurante_praca))
-# print(vars(restaurante_pizza))
-
+    # metodo para avaliacao
+    def receber_avaliacao(self, cliente, nota):
+        if 0 < nota < 5:
+            avaliacao = Avaliacao(cliente, nota)
+            self._avaliacao.append(avaliacao)
+        
+    @property
+    def media_avaliacao(self):
+        # se o resturante n tem avaliacao, retornar 0
+        if not self._avaliacao:
+              return '-'
+        # somar as avaliacoes
+        soma_das_notas = sum(avaliacao._nota for avaliacao in self._avaliacao)
+        # pegar as quantidades das notas
+        quantidade_de_notas = len(self._avaliacao)
+        # achar a media das notas
+        media = round(soma_das_notas / quantidade_de_notas, 1)
+        return media
